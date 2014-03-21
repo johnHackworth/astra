@@ -76,7 +76,7 @@ Crafty.scene('Planet', (function() {
   }
 
   window.soil = Crafty.e('Soil');
-  window.soil.set({x: -1 * this.TOTAL_WIDTH/2, y: 400,w: this.TOTAL_WIDTH, h: 800 })
+  window.soil.set({x: -1 * this.TOTAL_WIDTH/2, y: 300,w: this.TOTAL_WIDTH, h: 800 })
 
   window.altitude = Crafty.e('AltitudeHUD');
   window.speed = Crafty.e('SpeedHUD');

@@ -55,16 +55,7 @@ Crafty.c('Ship', {
     this.velocity += this.currentPhase.getCurrentTrust();
   },
 
-  turn: function(amount) {
-    this.heading += amount / 50;
-    if(this.heading < 0) {
-      this.heading = 360 + this.heading;
-    }
-    if(this.heading >= 360) {
-      this.heading = this.heading - 360;
-    }
-    this.rotation = this.heading;
-  },
+
   accelerate: function() {
     if(this.currentPhase) {
       this.currentPhase.accelerate();
@@ -122,14 +113,25 @@ Crafty.c('Ship', {
   },
   crash: function(speed) {
     if(speed > 1000) {
+      var latSpeed =  Math.random() * (this.lateralSpeed + (Math.random() * 1000 - 500));;
+      if(latSpeed > 1000) {
+        latSpeed = 1000;
+      }
+      var verSpeed = -1 * Math.random() * speed / 2;
+      if(verSpeed > 1000) {
+        verSpeed = 1000;
+      }
       while(this.phases.length) {
 
         var phase = this.phases.splice(0,1)[0];
 
         phase.explosion();
         this.detachPhase(phase)
-        phase.lateralSpeed = this.lateralSpeed + (Math.random() * 1000 - 500);
-        phase.verticalSpeed = -1 * Math.random() * speed / 2
+
+        // phase.lateralSpeed = latSpeed;
+        // this.lateralSpeed = phase.lateralSpeed;
+        // phase.verticalSpeed = verSpeed;
+        // this.verticalSpeed = phase.verticalSpeed;
       }
     }
   },

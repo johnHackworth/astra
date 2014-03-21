@@ -1,7 +1,7 @@
 Crafty.c('ShipPhase', {
   numberOfComponents: 0,
   init: function() {
-    this.requires('2D, GravityPhysics, Particles')
+    this.requires('2D, Entity, GravityPhysics, Particles')
     this.components = {
       engines: [],
       fuel: [],
@@ -216,6 +216,9 @@ Crafty.c('ShipPhase', {
         this.components[comp][c].ship = ship;
       }
     }
+  },
+  crash: function() {
+
   }
 })
 

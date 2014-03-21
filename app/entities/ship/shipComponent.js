@@ -15,6 +15,7 @@ Crafty.c('ShipComponent', {
   initBindings: function() {
     this.bind("EnterFrame", this.tick.bind(this));
   },
+
   tick: function() {
     this.counter++;
     var cosHeading = (Math.cos(this.toRadians(this.heading)));

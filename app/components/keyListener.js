@@ -9,11 +9,18 @@ Crafty.c('KeyListener', {
   },
   checkKeyboardEvents: function() {
     this.counter++;
+    var speed = this.getSpeed() || 1;
+    var speedModificator = speed / 500;
+    if(speedModificator < 4) {
+      speedModificator = 4;
+    } else if(speedModificator > 30) {
+      speedModificator = 30;
+    }
     if(this.isDown('LEFT_ARROW') && this.counter % 1 == 0) {
-      this.turn(-4);
+      this.turn(-1 * speedModificator);
     }
     if (this.isDown('RIGHT_ARROW') && this.counter % 1 == 0) {
-      this.turn(4);
+      this.turn(speedModificator);
     }
 
     if (this.isDown('UP_ARROW') && this.counter % 10 == 0) {

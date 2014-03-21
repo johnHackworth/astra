@@ -25,6 +25,7 @@ Crafty.c('GravityPhysics', {
   getNewPosition: function() {
     this.calculateAcceleration();
     this.calculateSpeed();
+    this.gravityTurn();
     var newX = this.x + this.lateralSpeed / this._FRAMES_PER_SECOND;
     var newY = this.y + this.verticalSpeed / this._FRAMES_PER_SECOND;
     if(newX > this._LIMIT_RIGHT) {
@@ -101,6 +102,18 @@ Crafty.c('GravityPhysics', {
     return {
       x: airBrakeX,
       y: airBrakeY
+    }
+  },
+
+  gravityTurn: function() {
+    if(this.rotation != 270 && this.rotation != 90) {
+      var speed = 1 + Math.abs(30 * Math.cos(this.toRadians(this.rotation)));
+      if(this.rotation > 90 && this.rotation < 270) {
+        this.turn(-1 * speed);
+      } else {
+        this.turn(speed)
+      }
+
     }
   }
 })
