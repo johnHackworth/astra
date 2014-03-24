@@ -35,13 +35,20 @@ Crafty.c('RocketEngine', {
       this.scapeSprite.attr({h: 100});
       this.scapeSprite.animate('motorRunning', -1);
     }
-    this._Particles.maxParticles = this.percentage * 30;
+    this._Particles.maxParticles = this.getNumberOfParticles();
     // this._Particles.angle = this.rotation - 90;
     this._Particles.sizeRandom = 16 + 20 * this.percentage;
     this._Particles.lifeSpanRandom = this.getScapeLifespan()
     this._Particles.speedRandom = this.getScapeSpeed();
     this._Particles.angleRandom = this.getScapeAngle();
     this.scapeSprite.attr({h: this.getScapeHeight()});
+  },
+  getNumberOfParticles: function() {
+    if(this.ship.altitude() < 3600) {
+      return 30 + Math.floor(this.ship.altitude() / 36);
+    } else {
+      return 10;
+    }
   },
   getScapeHeight: function() {
     var scapeHeight = 300 * this.totalTrust / 10;
