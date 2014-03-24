@@ -1,31 +1,31 @@
 window.astra = window.astra || {};
 window.astra.explosions = {};
 window.astra.explosions.rocketExhaust = {
-    maxParticles: 60,
-    size: 16,
-    sizeRandom: 6,
+    maxParticles: 50,
+    size: 26,
+    sizeRandom: 16,
     speed: 0,
-    speedRandom: 30,
+    speedRandom: 10,
     // Lifespan in frames
     lifeSpan: 0,
-    lifeSpanRandom: 20,
+    lifeSpanRandom: 10,
     // Angle is calculated clockwise: 12pm is 0deg, 3pm is 90deg etc.
     angle: 180,
     angleRandom: 10,
-    startColour: [255, 160, 0, 1],
-    startColourRandom: [30, 80, 0, 0],
-    endColour: [30, 30, 30, 1],
-    endColourRandom: [10, 10, 0, 1],
+    startColour: [160, 160, 160, 1],
+    startColourRandom: [80, 80, 80, 0],
+    endColour: [255, 255, 255, 1],
+    endColourRandom: [60, 60, 160, 1],
     // Only applies when fastMode is off, specifies how sharp the gradients are drawn
-    sharpness: 20,
+    sharpness: 1,
     sharpnessRandom: 10,
     // Random spread from origin
-    spread: 30,
+    spread: 10,
     // How many frames should this last
     duration: -1,
     // Will draw squares instead of circle gradients
     fastMode: true,
-    gravity: { x: 0, y: 0.1 },
+    gravity: { x: 0, y: 0 },
     // sensible values are 0-3
     jitter: 3,
     originOffsetX: 20

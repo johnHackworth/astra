@@ -1,8 +1,8 @@
 Crafty.c('GravityPhysics', {
-  _TERMINAL_VELOCITY: 50,
+  _TERMINAL_VELOCITY: 10000,
   _FRAMES_PER_SECOND: 50,
-  _LIMIT_RIGHT: 23000,
-  _LIMIT_LEFT: -23000,
+  _LIMIT_RIGHT: 149000,
+  _LIMIT_LEFT: -149000,
   init: function() {
     this.accelerationX = this.accelerationX || 0;
     this.accelerationY = this.accelerationY || 0;
@@ -71,6 +71,12 @@ Crafty.c('GravityPhysics', {
     var acceleration = this.accelerationPerFrame();
     this.lateralSpeed += acceleration.x;
     this.verticalSpeed += acceleration.y;
+    if(Math.abs(this.lateralSpeed) > this._TERMINAL_VELOCITY) {
+      this.lateralSpeed = Math.floor(-150 + Math.random() * 300) + this._TERMINAL_VELOCITY * Math.abs(this.lateralSpeed) / this.lateralSpeed;
+    }
+    if(Math.abs(this.verticalSpeed) > this._TERMINAL_VELOCITY) {
+      this.verticalSpeed = Math.floor(-150 + Math.random() * 300) + this._TERMINAL_VELOCITY * Math.abs(this.verticalSpeed) / this.verticalSpeed;
+    }
     if(this.y >= 500){
       this.y = 500;
       if(this.accelerationY > 0) {

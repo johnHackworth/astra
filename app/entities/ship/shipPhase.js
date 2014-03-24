@@ -1,7 +1,7 @@
 Crafty.c('ShipPhase', {
   numberOfComponents: 0,
   init: function() {
-    this.requires('2D, Entity, GravityPhysics, Particles')
+    this.requires('2D, Entity, GravityPhysics, Tween, Particles')
     this.components = {
       engines: [],
       fuel: [],
@@ -219,7 +219,20 @@ Crafty.c('ShipPhase', {
   },
   crash: function() {
 
+  },
+  getEnginePercentage: function() {
+    var percentage = 0;
+    var nEngines = 0;
+    for(var eng in this.components.engines) {
+      percentage += this.components.engines[eng].percentage;
+      nEngines++;
+    }
+    if(!nEngines) {
+      return 0;
+    }
+    return Math.floor(100 * percentage / nEngines);
   }
+
 })
 
 

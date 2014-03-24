@@ -8,7 +8,7 @@ window.astra.app.scenes.planet = {};
 Crafty.scene('Planet', (function() {
   var self = this;
   this.zoomLevel = 1;
-  this.TOTAL_WIDTH = 50000;
+  this.TOTAL_WIDTH = 300000;
   this.TOTAL_HEIGHT = 300000;
 
   this.paintSky = function(altitude) {
@@ -21,6 +21,7 @@ Crafty.scene('Planet', (function() {
     var b = Math.floor(255 - 255 * (Math.abs(altitude / this.TOTAL_HEIGHT)));
     if(b < 0) { b = 0} else if(b>255) { b = 255;};
     Crafty.background('rgb('+r+', '+g+', '+b+')');
+
     this.adjustZoom();
   }
   this.adjustZoom = function() {
@@ -28,17 +29,17 @@ Crafty.scene('Planet', (function() {
       return;
     }
     var altitude = Math.abs(500 - this.rocket.y);
-    if(altitude < 100) {
+    if(altitude < 1000) {
       this.zoomLevel = 0.4;
-    } else if(altitude < 300) {
-      this.zoomLevel = 0.3;
-    } else if(altitude < 3000) {
-      this.zoomLevel = 0.25;
     } else if(altitude < 10000) {
-      this.zoomLevel = 0.2;
-    } else if(altitude < 20000) {
-      this.zoomLevel = 0.15;
+      this.zoomLevel = 0.3;
     } else if(altitude < 30000) {
+      this.zoomLevel = 0.25;
+    } else if(altitude < 50000) {
+      this.zoomLevel = 0.2;
+    } else if(altitude < 100000) {
+      this.zoomLevel = 0.15;
+    } else if(altitude < 3000000) {
       this.zoomLevel = 0.1;
     }
 
@@ -76,12 +77,19 @@ Crafty.scene('Planet', (function() {
   }
 
   window.soil = Crafty.e('Soil');
-  window.soil.set({x: -1 * this.TOTAL_WIDTH/2, y: 300,w: this.TOTAL_WIDTH, h: 800 })
+  window.soil.set({x: -1 * this.TOTAL_WIDTH/2, y: -100,w: this.TOTAL_WIDTH, h: 2000 })
+
+  window.stars = [];
+  for(var i = 0; i < 500; i++) {
+    var star = Crafty.e('Star');
+    window.stars.push(star);
+  }
 
   window.altitude = Crafty.e('AltitudeHUD');
   window.speed = Crafty.e('SpeedHUD');
   window.fuel = Crafty.e('FuelHUD');
   window.gravity = Crafty.e('GravityHUD');
+  window.throddle = Crafty.e('ThroddleHUD');
 
   window.rocket = Crafty.e('Ship');
   window.rocket.testPhase();
@@ -92,6 +100,7 @@ Crafty.scene('Planet', (function() {
   window.speed.associateShip(window.rocket);
   window.fuel.associateShip(window.rocket);
   window.gravity.associateShip(window.rocket);
+  window.throddle.associateShip(window.rocket);
   this.zoomLevel = 0.5;
   Crafty.viewport._scale = 0.5;
 

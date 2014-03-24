@@ -66,7 +66,7 @@ Crafty.c('Ship', {
       this.currentPhase.deccelerate();
     }
   },
-  addPhase: function(phase, x, y) {
+  addPhase: function(phase, height, x, y) {
     if(!this.currentPhase) {
       this.currentPhase = phase;
     }
@@ -75,14 +75,15 @@ Crafty.c('Ship', {
     phase.addShip(this);
     phase.x += x || 0;
     phase.y += y || 0;
+    phase.height = height;
   },
   testPhase: function() {
     var phase = Crafty.e('ShipPhase');
     phase.testRocket3();
-    this.addPhase(phase);
+    this.addPhase(phase, 270);
     var phase2 = Crafty.e('ShipPhase');
     phase2.testModule();
-    this.addPhase(phase2, 270);
+    this.addPhase(phase2, 100, 270);
     // var phase3= Crafty.e('ShipPhase');
     // phase3.testModule();
     // this.addPhase(phase3, 400);
@@ -91,8 +92,13 @@ Crafty.c('Ship', {
   detachCurrentPhase: function() {
     if(this.phases.length  > 1) {
       var phase = this.phases.splice(0,1)[0];
+      var detachedHeight = phase.height;
       this.currentPhase = this.phases[0];
       this.detachPhase(phase)
+      for(var ph in this.phases) {
+        this.phases[ph].attr({y: this.phases[ph].y + detachedHeight});
+        this.y -= detachedHeight;
+      }
       for(var eng in this.currentPhase.components.engines) {
         this.currentPhase.components.engines[eng].accelerate();
       }
@@ -128,11 +134,15 @@ Crafty.c('Ship', {
         phase.explosion();
         this.detachPhase(phase)
 
-        // phase.lateralSpeed = latSpeed;
-        // this.lateralSpeed = phase.lateralSpeed;
-        // phase.verticalSpeed = verSpeed;
-        // this.verticalSpeed = phase.verticalSpeed;
+        phase.lateralSpeed = latSpeed;
+        this.lateralSpeed = phase.lateralSpeed;
+        phase.accelerationY = 0;
+        phase.accelerationX = 0;
+        phase.verticalSpeed = verSpeed;
+        this.verticalSpeed = phase.verticalSpeed;
       }
+      this.accelerationX = 0;
+      this.accelerationY = 0;
     }
   },
   getWeight: function() {
@@ -141,6 +151,13 @@ Crafty.c('Ship', {
       weight += this.phases[p].getWeight();
     }
     return weight;
+  },
+  getEnginePercentage: function() {
+    if(!this.currentPhase) {
+      return 0;
+    } else {
+      return this.currentPhase.getEnginePercentage();
+    }
   }
 
 });
