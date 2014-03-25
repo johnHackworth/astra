@@ -29,6 +29,9 @@ Crafty.c('Grid', {
   toRadians: function(degrees) {
     return degrees * Math.PI / 180;
   },
+  toDegrees: function(radians) {
+    return radians * 180 / Math.PI;
+  },
 
   rotatedPosition: function(displacement) {
     displacement = displacement || [0,0];

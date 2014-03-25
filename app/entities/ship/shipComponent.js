@@ -46,7 +46,7 @@ Crafty.c('ShipComponent', {
     } else {
       this.velocityY = velocityY;
     }
-    this.lateralSpeed = this.velocityX;
+    this.lateralSpeed = Math.floor(this.velocityX);
     this.verticalSpeed = this.velocityY;
   },
 

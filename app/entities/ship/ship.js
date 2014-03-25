@@ -1,8 +1,10 @@
 Crafty.c('Ship', {
+  lateralSpeed: 0,
+  verticalSpeed: 0,
   init: function() {
     this.phases = [];
     this.currentPhase = null;
-    this.requires('Entity, Solid, Collision, KeyListener, Gravity, GravityPhysics, Particles')
+    this.requires('Entity, Solid, Collision, KeyListener, GravityPhysics, Particles')
       // .color('#FFFFFF')
       .stopOnSolids()
     this.initBindings();
@@ -158,6 +160,26 @@ Crafty.c('Ship', {
     } else {
       return this.currentPhase.getEnginePercentage();
     }
+  },
+  getHeading: function() {
+    var verticalSpeed = Math.floor(this.verticalSpeed);
+    var lateralSpeed = Math.floor(this.lateralSpeed);
+    if(!lateralSpeed) {
+      if(verticalSpeed > 0) {
+        return 90;
+      } else {
+        return 270;
+      }
+    } else if (!verticalSpeed) {
+      if(lateralSpeed > 0) {
+        return 0;
+      } else {
+        return 180;
+      }
+    }
+    var headingRadians = Math.atan(verticalSpeed / lateralSpeed);
+    var heading = (this.toDegrees(headingRadians) + 360 )% 360 ;
+    return Math.floor(heading);
   }
 
 });

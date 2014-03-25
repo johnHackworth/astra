@@ -10,7 +10,7 @@ Crafty.c('Star', {
     this.w = this.size;
     this.h = this.size;
     this.origX = -1.5 * Crafty.viewport.width + Math.floor(Math.random() * 4 * Crafty.viewport.width);
-    this.origY = - 1 * Math.floor(Math.random() * 3 * Crafty.viewport.height);
+    this.origY = - 1 * Math.floor(Math.random() * 2 * Crafty.viewport.height);
     this.x = this.origX;
     this.y = this.origY;
     var randomColorsAdjust = [Math.floor(Math.random() * 100),

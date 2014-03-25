@@ -38,8 +38,8 @@ Crafty.c('ShipPhase', {
     } else {
       this.velocityY = velocityY;
     }
-    this.lateralSpeed = this.velocityX;
-    this.verticalSpeed = this.velocityY;
+    this.lateralSpeed = Math.floor(this.velocityX);
+    this.verticalSpeed = Math.floor(this.velocityY);
   },
   addShipComponent: function(component, type, x, y) {
     this.numberOfComponents++;

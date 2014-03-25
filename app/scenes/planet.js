@@ -80,7 +80,7 @@ Crafty.scene('Planet', (function() {
   window.soil.set({x: -1 * this.TOTAL_WIDTH/2, y: -100,w: this.TOTAL_WIDTH, h: 2000 })
 
   window.stars = [];
-  for(var i = 0; i < 500; i++) {
+  for(var i = 0; i < 300; i++) {
     var star = Crafty.e('Star');
     window.stars.push(star);
   }
