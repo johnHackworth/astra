@@ -13,8 +13,8 @@ Crafty.c('Cloud', {
   addChunk: function(n) {
     var chunk = Crafty.e('2D, Canvas, Color');
     this.attach(chunk);
-    chunk.w = 100 + Math.floor(1000 * Math.random());
-    chunk.h = 100 + Math.floor(1000 * Math.random());
+    chunk.w = 800 + Math.floor(6000 * Math.random());
+    chunk.h = 500 + Math.floor(1000 * Math.random());
     chunk.z = this.z;
     if(n>0) {
       chunk.x = -1 * chunk.w + 50;

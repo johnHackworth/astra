@@ -41,6 +41,8 @@ Crafty.scene('Planet', (function() {
       this.zoomLevel = 0.15;
     } else if(altitude < 3000000) {
       this.zoomLevel = 0.1;
+    } else if(altitude < 5000000) {
+      this.zoomLevel = 0.07;
     }
 
   }
@@ -63,7 +65,7 @@ Crafty.scene('Planet', (function() {
   Crafty.bind('EnterFrame', this.cameraView.bind(this));
 
   window.clouds= []
-  for(var i = 0; i <550; i++) {
+  for(var i = 0; i <50; i++) {
     var cloud = Crafty.e('Cloud');
     var y = 600 - Math.random() * this.TOTAL_HEIGHT;
     cloud.attr({
@@ -80,10 +82,11 @@ Crafty.scene('Planet', (function() {
   window.soil.set({x: -1 * this.TOTAL_WIDTH/2, y: -100,w: this.TOTAL_WIDTH, h: 2000 })
 
   window.stars = [];
-  for(var i = 0; i < 300; i++) {
+  for(var i = 0; i < 30; i++) {
     var star = Crafty.e('Star');
     window.stars.push(star);
   }
+  window.sun = Crafty.e('Sun')
 
   window.altitude = Crafty.e('AltitudeHUD');
   window.speed = Crafty.e('SpeedHUD');

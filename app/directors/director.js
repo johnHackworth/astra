@@ -7,8 +7,8 @@ window.astra.src.Director = function() {
 
 };
 window.astra.config = {
-  width: 1360,
-  height: 750,
+  width: 1365,
+  height: 765,
   fps: 20
 }
 window.astra.src.Director.prototype = {

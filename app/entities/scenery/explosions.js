@@ -32,11 +32,11 @@ window.astra.explosions.rocketExhaust = {
 }
 
 window.astra.explosions.shipCrash = {
-    maxParticles: 250,
+    maxParticles: 25,
     size: 25,
     sizeRandom: 10,
     speed: 0,
-    speedRandom: 10,
+    speedRandom: 3,
     // Lifespan in frames
     lifeSpan: 0,
     lifeSpanRandom: 30,

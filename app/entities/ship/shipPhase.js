@@ -1,4 +1,5 @@
 Crafty.c('ShipPhase', {
+  counter: 0,
   numberOfComponents: 0,
   init: function() {
     this.requires('2D, Entity, GravityPhysics, Tween, Particles')
@@ -17,6 +18,10 @@ Crafty.c('ShipPhase', {
   tick: function() {
     this.counter++;
     this.inertia();
+    if(this.flamesFrames){
+      this.flamesFrames--;
+      this.flames();
+    }
   },
 
   inertia: function() {
@@ -183,19 +188,27 @@ Crafty.c('ShipPhase', {
     return fuel;
   },
   explosion: function() {
-    var explosionOptions = _.clone(window.astra.explosions.shipCrash);
-    var fuel = this.getTotalFuel();
-    explosionOptions.duration = Math.abs(60 + Math.random() * 100);
-    explosionOptions.lifeSpanRandom = Math.abs(10 + Math.random() * 50);
+    this.flamesFrames = 30;
+  },
+  flames: function() {
+    if(this.counter % 10 === 0) {
+      var explosionOptions = _.clone(window.astra.explosions.shipCrash);
+      var fuel = this.getTotalFuel();
+      explosionOptions.duration = Math.abs(Math.random() * 100);
+      explosionOptions.lifeSpanRandom = Math.abs(Math.random() * 50);
 
-    this.particles(explosionOptions);
-    setTimeout(this.smoke.bind(this),200)
+      this.particles(explosionOptions);
+    }
+    if(!this.flamesFrames) {
+      this.smoke();
+    }
   },
   smoke: function() {
     var fuel = this.getTotalFuel();
     var smokeOptions = _.clone(window.astra.explosions.shipCrashSmoke);
     smokeOptions.size = 2 * this.numberOfComponents;
     smokeOptions.duration = 50 * fuel;
+    smokeOptions.speed = 1;
     this.particles(smokeOptions );
   },
   getWeight: function() {
