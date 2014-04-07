@@ -7,8 +7,9 @@ Crafty.sprite(150, 300, 'assets/rocketScape.png', {
 
 
 Crafty.c('RocketEngine', {
-  horsePower:7550,
-  maxTrust: 12,
+  horsePower:3000,
+  maxTrust: 700,
+  consumption: [0.2, 0.6, 1, 1.5, 2],
   init: function() {
     this.requires('ShipEngine, sprEngine, SpriteAnimation, Particles')
     this.scapeSprite = Crafty.e('2D, Canvas, Tween, SpriteAnimation, sprExhaust');
@@ -24,7 +25,7 @@ Crafty.c('RocketEngine', {
     this.bind('deccelerate', this.onDeccelerate.bind(this));
   },
   onAccelerate: function() {
-    if(!this.isOn) {
+    if(!this.isOn && this.currentFuel) {
       this.isOn = true;
       if(typeof this._Particles.particleCount === 'undefined') {
         this.particles(window.astra.explosions.rocketExhaust);
@@ -37,21 +38,21 @@ Crafty.c('RocketEngine', {
     }
     this._Particles.maxParticles = this.getNumberOfParticles();
     this._Particles.angle = this.getScapeAngle();
-    this._Particles.sizeRandom = 16 + 20 * this.percentage;
+    this._Particles.sizeRandom = 20 + 40 * this.percentage;
     this._Particles.lifeSpanRandom = this.getScapeLifespan()
     this._Particles.speedRandom = this.getScapeSpeed();
-    // this._Particles.angleRandom = this.getScapeAngle();
+    this._Particles.angleRandom = this.getScapeAngle();
     this.scapeSprite.attr({h: this.getScapeHeight()});
   },
   getNumberOfParticles: function() {
     if(this.ship.altitude() < 3600) {
-      return 30 + Math.floor(this.ship.altitude() / 36);
+      return 150;//0 + Math.floor(this.ship.altitude() / 50);
     } else {
-      return 30;
+      return 3;
     }
   },
   getScapeHeight: function() {
-    var scapeHeight = 300 * this.totalTrust / 10;
+    var scapeHeight = 300 * this.totalTrust / 3  / this._FRAMES_PER_SECOND;
     if(scapeHeight < 100) {
       scapeHeight = 100;
     }

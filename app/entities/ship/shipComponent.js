@@ -61,5 +61,8 @@ Crafty.c('ShipComponent', {
   turn: function(amount) {
 
   },
+  getWeight: function() {
+    return this.weight;
+  }
 });
 

@@ -53,7 +53,7 @@ Crafty.c('Sun', {
   },
   isAtCenter: function() {
     var yFactor = Math.abs(Crafty.viewport.y + this.y);
-    if(yFactor < 200 ) {
+    if(yFactor < 500 ) {
       return true;
     }
     return false;

@@ -10,7 +10,7 @@ Crafty.c('SpeedHUD', {
   repaint: function() {
     if(this.ship) {
       this.textFont({size: this.getFontSize() + 'px'});
-      var speed = Math.floor(-1 * this.ship.verticalSpeed)
+      var speed = Math.floor(-1 * this.ship.verticalSpeed / this.ship._PIXELS_PER_METER)
       this.text(speed + ' vertical m/s ');
       this.y = -1 * Crafty.viewport.y + this.getFontSize() * 2.2;
       this.x = -1 * Crafty.viewport.x + 20/ Crafty.viewport._scale;

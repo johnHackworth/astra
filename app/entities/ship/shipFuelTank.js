@@ -14,6 +14,9 @@ Crafty.c('ShipFuelTank', {
       return 1;
     }
     return 0;
+  },
+  getWeight: function() {
+    return (this.weight + this.fuel / 100)
   }
 
 })

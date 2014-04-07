@@ -3,8 +3,8 @@ Crafty.sprite('assets/tank2.png', {
 });
 
 Crafty.c('LiquidFuelTankMedium', {
-  fuel: 5000,
-  weight: 1000,
+  fuel: 50000,
+  weight: 100,
   fuelType: 'rocket fuel',
   init: function() {
     this.requires('ShipFuelTank, sprTank2')

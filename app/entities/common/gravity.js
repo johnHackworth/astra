@@ -1,8 +1,14 @@
+var _PIXELS_PER_METER = 4;
 Crafty.c('GravityPhysics', {
+  _PIXELS_PER_METER: _PIXELS_PER_METER,
   _TERMINAL_VELOCITY: 10000,
   _FRAMES_PER_SECOND: 50,
+  _GRAVITY: 98 * _PIXELS_PER_METER,
   _LIMIT_RIGHT: 149000,
   _LIMIT_LEFT: -149000,
+  _ORBITAL_SPEED: 9000,
+  _ATMOSPHERE_HEIGHT: 300000,
+  ZERO_POINT: 500,
   init: function() {
     this.accelerationX = this.accelerationX || 0;
     this.accelerationY = this.accelerationY || 0;
@@ -15,11 +21,18 @@ Crafty.c('GravityPhysics', {
     return degrees * Math.PI / 180
   },
   altitude: function() {
-    return 500 - this.y;
+    return this.ZERO_POINT - this.y;
   },
   gravity: function() {
-    var gravity = 9.8 / Math.pow( (this.altitude()/1000+6400) / 6400, 2);
-    return gravity;
+    var gravity = this._GRAVITY / Math.pow( (this.altitude()/1000+6400) / 6400, 2);
+    var gravityDiff = Math.abs(this.lateralSpeed / this._ORBITAL_SPEED);
+    if(gravityDiff < 0) {
+      gravityDiff = 0;
+    } else if(gravityDiff > 1) {
+      gravityDiff = 1;
+    }
+
+    return gravity * (1 - gravityDiff);
   },
 
   getNewPosition: function() {
@@ -46,14 +59,20 @@ Crafty.c('GravityPhysics', {
     return orientationX;
   },
   calculateAcceleration: function() {
-    this.accelerationY += this.trustY + this.gravity();
+    this.accelerationY = this.trustY + this.gravity();
+    this.accelerationX = this.trustX;
     var orientation = 0;
     if(this.verticalSpeed) {
       orientation = this.verticalSpeed / Math.abs(this.verticalSpeed);
     }
-    this.accelerationY -= orientation * this.airBrake().y;
-    this.accelerationX += this.trustX;
+    var verticalAirBrake = this.airBrake().y;
+    if(orientation == 1) {
+      verticalAirBrake = 0;
+    }
+    this.accelerationY -= orientation * verticalAirBrake;
     var originOrientation = this.getOrientationX();
+
+    // console.log(this.accelerationX, originOrientation * this.airBrake().x);
     this.accelerationX -= originOrientation * this.airBrake().x;
     var newOrientation = this.getOrientationX(this.accelerationX);
     if(originOrientation != 0 && newOrientation != originOrientation) {
@@ -69,8 +88,8 @@ Crafty.c('GravityPhysics', {
   },
   calculateSpeed: function() {
     var acceleration = this.accelerationPerFrame();
-    this.lateralSpeed += Math.floor(acceleration.x);
-    this.verticalSpeed += Math.floor(acceleration.y);
+    this.lateralSpeed += (acceleration.x);
+    this.verticalSpeed += (acceleration.y);
     if(Math.abs(this.lateralSpeed) > this._TERMINAL_VELOCITY) {
       this.lateralSpeed = Math.floor(-150 + Math.random() * 300 + this._TERMINAL_VELOCITY * Math.abs(this.lateralSpeed) / this.lateralSpeed);
     }
@@ -89,15 +108,15 @@ Crafty.c('GravityPhysics', {
     }
   },
   airBrake: function() {
-    var maxAltitude = 300000;
-    var brakeConstant = 30;
+    var maxAltitude = this._ATMOSPHERE_HEIGHT;
+    var brakeConstant = 5;
     var brakeConstantX = brakeConstant;
     var brakeConstantY = brakeConstant;
     if(this.altitude() <= 10) {
-      brakeConstantX = 5;
+      brakeConstantX = 10;
     }
     var airBrakeX = Math.abs(this.lateralSpeed / this._FRAMES_PER_SECOND / brakeConstantX );
-    var airBrakeY = Math.abs(Math.abs(this.verticalSpeed / this._FRAMES_PER_SECOND / brakeConstantY) );
+    var airBrakeY = Math.abs(this.verticalSpeed / (this._FRAMES_PER_SECOND / brakeConstantY));
 
     var altitudeModificator = this.altitude() / maxAltitude;
     altitudeModificator = altitudeModificator > 1? 1: altitudeModificator;

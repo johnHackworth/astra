@@ -35,7 +35,7 @@ Crafty.c('GravityHUD', {
     this.marker.x = this.x +  this.w / 2;
     this.marker.y = this.y + this.h / 2;
     var range = 270 - 90;
-    var position = range * (1 - this.ship.gravity() / 9.8);
+    var position = range * (1 - this.ship.gravity() / this.ship._GRAVITY);
     this.marker.rotation = 270 - position;
 
   }

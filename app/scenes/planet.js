@@ -65,7 +65,7 @@ Crafty.scene('Planet', (function() {
   Crafty.bind('EnterFrame', this.cameraView.bind(this));
 
   window.clouds= []
-  for(var i = 0; i <50; i++) {
+  for(var i = 0; i <350; i++) {
     var cloud = Crafty.e('Cloud');
     var y = 600 - Math.random() * this.TOTAL_HEIGHT;
     cloud.attr({
@@ -82,7 +82,7 @@ Crafty.scene('Planet', (function() {
   window.soil.set({x: -1 * this.TOTAL_WIDTH/2, y: -100,w: this.TOTAL_WIDTH, h: 2000 })
 
   window.stars = [];
-  for(var i = 0; i < 30; i++) {
+  for(var i = 0; i < 930; i++) {
     var star = Crafty.e('Star');
     window.stars.push(star);
   }

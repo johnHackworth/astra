@@ -28,7 +28,10 @@ Crafty.c('Glare', {
       glare.attr({
         alpha: 0
       });
-      glare.color('#FFFFFF');
+      var r = Math.floor(Math.random() * 45);
+      var g = Math.floor(Math.random() * 45);
+      var b = Math.floor(Math.random() * 45);
+      glare.color('rgb('+(210 + r)+','+(210 + g)+','+(210 + b)+')');
 
       glare.tween({
         alpha: 0.5

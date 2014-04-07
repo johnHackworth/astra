@@ -171,11 +171,18 @@ Crafty.c('ShipPhase', {
     }
     return {x: trust.x, y: trust.y};
   },
-  getFuel: function() {
+  getFuel: function(amountNeeded) {
     var fuel = 0;
     for(var eng in this.components.fuel) {
-      if(!fuel) {
-        fuel += this.components.fuel[eng].getFuel();
+      if(!fuel && amountNeeded) {
+        var depotFuel = this.components.fuel[eng].getFuel();
+        fuel += depotFuel;
+        amountNeeded--;
+        while(depotFuel && amountNeeded) {
+          depotFuel = this.components.fuel[eng].getFuel();
+          fuel += depotFuel;
+          amountNeeded--;
+        }
       }
     }
     return fuel;
@@ -216,7 +223,7 @@ Crafty.c('ShipPhase', {
     for(var comp in this.components) {
       for(var c in this.components[comp]) {
         if(this.components[comp][c].weight) {
-          weight += this.components[comp][c].weight;
+          weight += this.components[comp][c].getWeight();
         }
       }
     }
