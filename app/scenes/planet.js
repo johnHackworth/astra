@@ -65,7 +65,7 @@ Crafty.scene('Planet', (function() {
   Crafty.bind('EnterFrame', this.cameraView.bind(this));
 
   window.clouds= []
-  for(var i = 0; i <350; i++) {
+  for(var i = 0; i <30; i++) {
     var cloud = Crafty.e('Cloud');
     var y = 600 - Math.random() * this.TOTAL_HEIGHT;
     cloud.attr({
@@ -82,7 +82,7 @@ Crafty.scene('Planet', (function() {
   window.soil.set({x: -1 * this.TOTAL_WIDTH/2, y: -100,w: this.TOTAL_WIDTH, h: 2000 })
 
   window.stars = [];
-  for(var i = 0; i < 930; i++) {
+  for(var i = 0; i < 30; i++) {
     var star = Crafty.e('Star');
     window.stars.push(star);
   }
@@ -95,7 +95,25 @@ Crafty.scene('Planet', (function() {
   window.throddle = Crafty.e('ThroddleHUD');
 
   window.rocket = Crafty.e('Ship');
-  window.rocket.testPhase();
+  // window.rocket.testPhase();
+  window.rocket = astra.shipGenerator.generate({
+    phases:[
+      {
+        engines:['RocketEngine', 'RocketEngine','RocketEngine'],
+        fuel: ['LiquidFuelTankMedium']
+      },
+      // {
+      //   engines:['RocketEngine', 'RocketEngine'],
+      //   fuel: ['LiquidFuelTankSmall','LiquidFuelTankSmall','LiquidFuelTankSmall']
+      // },
+      {
+        engines:['RocketEngine','RocketEngine'],
+        fuel:['LiquidFuelTankSmall', 'LiquidFuelTankSmall'  ],
+        control:['ShipCone1']
+      }
+    ]
+  })
+
   window.rocket.at(300, 490);
   this.rocket = window.rocket;
 

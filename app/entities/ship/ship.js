@@ -18,6 +18,7 @@ Crafty.c('Ship', {
   heading: 270,
   initBindings: function() {
     this.bind("EnterFrame", this.tick.bind(this));
+    this.bind("bigAirBrake", this.shake.bind(this));
   },
 
   tick: function() {
@@ -31,12 +32,14 @@ Crafty.c('Ship', {
     this.checkKeyboardEvents();
   },
   inertia: function() {
-    var currentTrust = this.currentPhase.getCurrentTrust();
-    this.trustX = currentTrust.x;
-    this.trustY = currentTrust.y;
-    var newPosition = this.getNewPosition()
-    this.x = newPosition[0];
-    this.y = newPosition[1];
+    if(this.currentPhase) {
+      var currentTrust = this.currentPhase.getCurrentTrust();
+      this.trustX = currentTrust.x;
+      this.trustY = currentTrust.y;
+      var newPosition = this.getNewPosition()
+      this.x = newPosition[0];
+      this.y = newPosition[1];
+    }
   },
   stopOnSolids: function() {
     return this;
@@ -93,18 +96,20 @@ Crafty.c('Ship', {
   },
   detachCurrentPhase: function() {
     if(this.phases.length  > 1) {
-      var phase = this.phases.splice(0,1)[0];
-      var detachedHeight = phase.height;
-      this.currentPhase = this.phases[0];
-      this.detachPhase(phase)
-      for(var ph in this.phases) {
-        this.phases[ph].attr({y: this.phases[ph].y + detachedHeight});
-        this.y -= detachedHeight;
+      if(!this.counterDetached || this.counter - this.counterDetached > 500) {
+        this.counterDetached = this.counter;
+        var phase = this.phases.splice(0,1)[0];
+        var detachedHeight = phase.height;
+        this.currentPhase = this.phases[0];
+        this.detachPhase(phase)
+        for(var ph in this.phases) {
+          this.phases[ph].attr({y: this.phases[ph].y + detachedHeight});
+          this.y -= detachedHeight;
+        }
+        for(var eng in this.currentPhase.components.engines) {
+          this.currentPhase.components.engines[eng].accelerate();
+        }
       }
-      for(var eng in this.currentPhase.components.engines) {
-        this.currentPhase.components.engines[eng].accelerate();
-      }
-
     }
   },
   detachPhase: function(phase) {
@@ -180,6 +185,12 @@ Crafty.c('Ship', {
     var headingRadians = Math.atan(verticalSpeed / lateralSpeed);
     var heading = (this.toDegrees(headingRadians) + 360 )% 360 ;
     return Math.floor(heading);
+  },
+  shake: function(amount) {
+    if(Math.floor(Math.abs(this.trustX)) == 0 && Math.floor(Math.abs(this.trustY)) == 0) {
+      var orientation = 15  - Math.floor(Math.random() * 31);
+      this.turn(orientation);
+    }
   }
 
 });

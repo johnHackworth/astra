@@ -128,7 +128,7 @@ Crafty.c('ShipPhase', {
     var connector3 = Crafty.e('ShipConnector50')
     this.addShipComponent(connector3, 'connector', 200)
     var fuelTank = Crafty.e('LiquidFuelTankMedium')
-    this.addShipComponent(fuelTank, 'fuel', 75, -75)
+    this.addShipComponent(fuelTank, 'fuel', 75, -50)
 
     var connector12 = Crafty.e('ShipConnector50')
     this.addShipComponent(connector12, 'connector', 270, -25)

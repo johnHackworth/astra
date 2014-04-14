@@ -20,3 +20,5 @@ window.astra.src.Director.prototype = {
     Crafty.scene('Planet')
   },
 }
+
+window.astra.shipGenerator = new window.astra.src.shipGenerator();

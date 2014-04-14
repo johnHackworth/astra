@@ -113,7 +113,7 @@ Crafty.c('GravityPhysics', {
     var brakeConstantX = brakeConstant;
     var brakeConstantY = brakeConstant;
     if(this.altitude() <= 10) {
-      brakeConstantX = 10;
+      brakeConstantX = 0.3;
     }
     var airBrakeX = Math.abs(this.lateralSpeed / this._FRAMES_PER_SECOND / brakeConstantX );
     var airBrakeY = Math.abs(this.verticalSpeed / (this._FRAMES_PER_SECOND / brakeConstantY));
@@ -123,6 +123,10 @@ Crafty.c('GravityPhysics', {
 
     airBrakeX = airBrakeX * (1 - altitudeModificator);
     airBrakeY = airBrakeY * (1 - altitudeModificator);
+
+    if(Math.abs(airBrakeX) + Math.abs(airBrakeY) > 100) {
+      this.trigger('bigAirBrake');
+    }
 
     return {
       x: airBrakeX,
