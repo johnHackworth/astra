@@ -9,7 +9,7 @@ Crafty.sprite(150, 300, 'assets/rocketScape.png', {
 Crafty.c('RocketEngine', {
   horsePower:3000,
   maxTrust: 700,
-  consumption: [0.2, 0.6, 1, 1.5, 2],
+  consumption: [0.1, 0.3, 0.5, 0.6, 0.7],
   init: function() {
     this.requires('ShipEngine, sprEngine, SpriteAnimation, Particles')
     this.scapeSprite = Crafty.e('2D, Canvas, Tween, SpriteAnimation, sprExhaust');
@@ -28,20 +28,20 @@ Crafty.c('RocketEngine', {
     if(!this.isOn && this.currentFuel) {
       this.isOn = true;
       if(typeof this._Particles.particleCount === 'undefined') {
-        this.particles(window.astra.explosions.rocketExhaust);
+        // this.particles(window.astra.explosions.rocketExhaust);
       } else {
-        this._Particles.init(window.astra.explosions.rocketExhaust)
+        // this._Particles.init(window.astra.explosions.rocketExhaust)
       }
       this.scapeSprite.tween({alpha: 1}, 500);
       this.scapeSprite.attr({h: 100});
       this.scapeSprite.animate('motorRunning', -1);
     }
-    this._Particles.maxParticles = this.getNumberOfParticles();
-    this._Particles.angle = this.getScapeAngle();
-    this._Particles.sizeRandom = 20 + 40 * this.percentage;
-    this._Particles.lifeSpanRandom = this.getScapeLifespan()
-    this._Particles.speedRandom = this.getScapeSpeed();
-    this._Particles.angleRandom = this.getScapeAngle();
+    // this._Particles.maxParticles = this.getNumberOfParticles();
+    // this._Particles.angle = this.getScapeAngle();
+    // this._Particles.sizeRandom = 20 + 40 * this.percentage;
+    // this._Particles.lifeSpanRandom = this.getScapeLifespan()
+    // this._Particles.speedRandom = this.getScapeSpeed();
+    // this._Particles.angleRandom = this.getScapeAngle();
     this.scapeSprite.attr({h: this.getScapeHeight()});
   },
   getNumberOfParticles: function() {

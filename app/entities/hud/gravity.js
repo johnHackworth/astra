@@ -21,7 +21,7 @@ Crafty.c('GravityHUD', {
     if(this.ship) {
       var scale = Crafty.viewport._scale;
       this.y = -1 * Crafty.viewport.y + Crafty.viewport.height / scale  - 60 / scale;
-      this.x = -1 * Crafty.viewport.x + 20/ scale;
+      this.x = -1 * Crafty.viewport.x + (Crafty.viewport.width - 80)/ scale;
       this.w = 80 / scale;
       this.h = 80 / scale;
       this.repaintMarker();

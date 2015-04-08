@@ -101,6 +101,7 @@ Crafty.c('Ship', {
         var phase = this.phases.splice(0,1)[0];
         var detachedHeight = phase.height;
         this.currentPhase = this.phases[0];
+        this.currentPhase.copyEnginePercentage(phase);
         this.detachPhase(phase)
         for(var ph in this.phases) {
           this.phases[ph].attr({y: this.phases[ph].y + detachedHeight});
@@ -109,6 +110,11 @@ Crafty.c('Ship', {
         for(var eng in this.currentPhase.components.engines) {
           this.currentPhase.components.engines[eng].accelerate();
         }
+        Crafty.trigger('textMessage', {
+          text: 'Phase detached',
+          channel: 1,
+          color: '#CCCCCC'
+        })
       }
     }
   },

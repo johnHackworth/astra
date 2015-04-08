@@ -136,7 +136,8 @@ Crafty.c('GravityPhysics', {
 
   gravityTurn: function() {
     if(this.rotation != 270 && this.rotation != 90) {
-      var speed = 1 + Math.abs(30 * Math.cos(this.toRadians(this.rotation)));
+      var speed = 1 + Math.abs(this.gravity() / 20 * Math.cos(this.toRadians(this.rotation)));
+      // speed =  * speed;
       if(this.rotation > 90 && this.rotation < 270) {
         this.turn(-1 * speed);
       } else {

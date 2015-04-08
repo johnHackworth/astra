@@ -7,6 +7,7 @@ window.astra.app.scenes.planet = {};
 
 Crafty.scene('Planet', (function() {
   var self = this;
+  window.astra.app.scenes.planet = this;
   this.zoomLevel = 1;
   this.TOTAL_WIDTH = 300000;
   this.TOTAL_HEIGHT = 300000;
@@ -25,7 +26,11 @@ Crafty.scene('Planet', (function() {
     this.adjustZoom();
   }
   this.adjustZoom = function() {
-    if(!this.rocket) {
+    if(!this.rocket ) {
+      return;
+    }
+    if(this.customZoom) {
+      this.zoomLevel = this.customZoom;
       return;
     }
     var altitude = Math.abs(500 - this.rocket.y);
@@ -65,7 +70,7 @@ Crafty.scene('Planet', (function() {
   Crafty.bind('EnterFrame', this.cameraView.bind(this));
 
   window.clouds= []
-  for(var i = 0; i <30; i++) {
+  for(var i = 0; i <600; i++) {
     var cloud = Crafty.e('Cloud');
     var y = 600 - Math.random() * this.TOTAL_HEIGHT;
     cloud.attr({
@@ -82,7 +87,7 @@ Crafty.scene('Planet', (function() {
   window.soil.set({x: -1 * this.TOTAL_WIDTH/2, y: -100,w: this.TOTAL_WIDTH, h: 2000 })
 
   window.stars = [];
-  for(var i = 0; i < 30; i++) {
+  for(var i = 0; i < 300; i++) {
     var star = Crafty.e('Star');
     window.stars.push(star);
   }
@@ -98,13 +103,21 @@ Crafty.scene('Planet', (function() {
   // window.rocket.testPhase();
   window.rocket = astra.shipGenerator.generate({
     phases:[
+      // {
+      //   engines:['RocketEngine', 'RocketEngine','RocketEngine',
+      //     'RocketEngine', 'RocketEngine','RocketEngine',
+      //     'RocketEngine','RocketEngine'],
+      //   fuel: ['LiquidFuelTankMedium','LiquidFuelTankMedium','LiquidFuelTankMedium']
+      // },
       {
-        engines:['RocketEngine', 'RocketEngine','RocketEngine'],
+        engines:['RocketEngine','RocketEngine',
+          'RocketEngine'],
         fuel: ['LiquidFuelTankMedium']
       },
       // {
-      //   engines:['RocketEngine', 'RocketEngine'],
-      //   fuel: ['LiquidFuelTankSmall','LiquidFuelTankSmall','LiquidFuelTankSmall']
+      //   engines:['RocketEngine','RocketEngine','RocketEngine'],
+      //   fuel:['LiquidFuelTankSmall', 'LiquidFuelTankSmall', 'LiquidFuelTankSmall'  ],
+      //   // control:['ShipCone1']
       // },
       {
         engines:['RocketEngine','RocketEngine'],
@@ -125,6 +138,21 @@ Crafty.scene('Planet', (function() {
   this.zoomLevel = 0.5;
   Crafty.viewport._scale = 0.5;
 
+  this.radio = Crafty.e("TextList")
+  this.radio.subscribeChannel(1);
+  this.radio.at(20,
+    Crafty.viewport.height - 200,
+    20);
+  setTimeout(function() {
+    Crafty.trigger('textMessage', {
+      text: 'Clear for Takeoff',
+      channel: 1,
+      color: '#FFFF99',
+      origin: {
+        name: 'Mission Control'
+      }
+    })
+  }, 1000);
   this.cameraView(0)
 
 }).bind(window.astra.app.scenes.planet ),

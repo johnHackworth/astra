@@ -3,7 +3,7 @@ Crafty.sprite('assets/tank2.png', {
 });
 
 Crafty.c('LiquidFuelTankMedium', {
-  fuel: 15000,
+  fuel: 25000,
   weight: 100,
   fuelType: 'rocket fuel',
   init: function() {

@@ -192,6 +192,14 @@ Crafty.c('ShipPhase', {
     for(var eng in this.components.fuel) {
       fuel += this.components.fuel[eng].fuel;
     }
+    if(!this.fuelAlert && fuel < 200) {
+      Crafty.trigger('textMessage', {
+        text: 'Low fuel level',
+        channel: 1,
+        color: '#FF5555'
+      })
+      this.fuelAlert = true;
+    }
     return fuel;
   },
   explosion: function() {
@@ -251,6 +259,18 @@ Crafty.c('ShipPhase', {
       return 0;
     }
     return Math.floor(100 * percentage / nEngines);
+  },
+  copyEnginePercentage: function(phase) {
+    var percentageSum = 0;
+    var engineNum  = 0;
+    for(var i in phase.components.engines) {
+      percentageSum += phase.components.engines[i].percentage;
+      engineNum++;
+    }
+    var engineLevel = Math.floor(percentageSum / engineNum);
+    for(var j in this.components.engines) {
+      this.components.engines[j].percentage = engineLevel;
+    }
   }
 
 })
